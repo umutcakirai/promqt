@@ -45,15 +45,19 @@ ChatGPT, Claude, Gemini, Midjourney, DALL-E, Stable Diffusion ve diger tum AI ar
 
 ## Kurulum
 
+> Chrome Web Magazasi incelemesi devam ediyor. Simdilik asagidaki yontemlerden biriyle manuel olarak kurun.
+
 ### Secenek 1: ZIP indir (En kolay)
 
 1. **[promqt-latest.zip indir](https://github.com/umutcakirai/promqt/releases/latest/download/promqt-latest.zip)**
-2. ZIP dosyasini bilgisayarinizdaki bir klasore cikartin
-3. Chrome'u acin ve adres cubuguna `chrome://extensions` yazin
-4. Sag ust kosedeki **Gelistirici modu** anahtarini acin
-5. **Paketlenmemis oge yukle** butonuna tiklayin
-6. ZIP'i cikarttiginiz klasoru secin
-7. Tamam! Arac cubugunuzda Promqt ikonunu goreceksiniz
+2. ZIP dosyasini bilgisayarinizdaki bir klasore cikartin (nereye cikardiginizi hatirlayin)
+3. Chrome'u acin ve adres cubuguna `chrome://extensions` yazin, Enter'a basin
+4. Sayfanin **sag ust kosesindeki** **Gelistirici modu** anahtarini acin
+5. **Paketlenmemis oge yukle** butonuna tiklayin (Gelistirici modu acildiktan sonra sol ustte belirir)
+6. ZIP'i cikarttiginiz klasoru bulun ve secin
+7. Tamam! Chrome arac cubugunuzda (sag ustte, yapboz ikonu yaninda) Promqt ikonunu goreceksiniz
+
+> **Ipucu:** Ikonu goremiyorsaniz, Chrome arac cubugundaki yapboz ikonu simgesine tiklayin ve Promqt'u sabitleyin.
 
 ### Secenek 2: Git ile klonla
 
@@ -62,23 +66,23 @@ git clone https://github.com/umutcakirai/promqt.git
 ```
 Ardindan yukaridaki 3-7 adimlarini takip edin, klonlanan `promqt` klasorunu secin.
 
-### Secenek 3: Chrome Web Store
-Yakin zamanda. Inceleme surecinde.
-
 ### Kurulum sonrasi ayarlar
 
-1. Chrome arac cubugundaki **Promqt ikonuna** tiklayin
+1. Chrome arac cubugundaki **Promqt ikonuna** tiklayin (veya yapboz ikonu > Promqt)
 2. **Settings** sekmesine gidin
 3. **Provider** secin (OpenAI, Google Gemini veya Anthropic Claude)
-4. Bir **Model** secin (ornegin GPT-4o, Gemini 2.5 Flash, Claude Sonnet 4)
-5. **API Key** yapistiriniz
+4. Acilan listeden bir **Model** secin:
+   - OpenAI: GPT-4o, GPT-4.1 vb.
+   - Gemini: Gemini 2.5 Flash vb.
+   - Claude: Claude Sonnet 4 vb.
+5. **API Key** yapistiriniz (saglayicinizdan alin):
    - OpenAI: [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
    - Gemini: [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
    - Claude: [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys)
-6. Dogrulamak icin **Test Connection** tiklayin
+6. Key'inizin calistigini dogrulamak icin **Test Connection** tiklayin
 7. **Save** tiklayin
 
-Simdi herhangi bir web sayfasinda metin secip deneyin!
+Simdi herhangi bir web sayfasina gidin, bir metin secin ve deneyin!
 
 ## Desteklenen saglayicilar
 

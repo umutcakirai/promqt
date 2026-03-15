@@ -45,15 +45,19 @@ Works with ChatGPT, Claude, Gemini, Midjourney, DALL-E, Stable Diffusion, and an
 
 ## Install
 
+> Chrome Web Store review is in progress. For now, install manually using one of the methods below.
+
 ### Option 1: Download ZIP (Easiest)
 
 1. **[Download promqt-latest.zip](https://github.com/umutcakirai/promqt/releases/latest/download/promqt-latest.zip)**
-2. Extract the ZIP file to a folder on your computer
-3. Open Chrome and go to `chrome://extensions`
-4. Turn on **Developer mode** (toggle in the top right corner)
-5. Click **Load unpacked**
-6. Select the folder where you extracted the ZIP
-7. Done! You'll see the Promqt icon in your toolbar
+2. Extract the ZIP file to a folder on your computer (remember where you extract it)
+3. Open Chrome and type `chrome://extensions` in the address bar, press Enter
+4. Turn on **Developer mode** (toggle switch in the **top right corner** of the page)
+5. Click the **Load unpacked** button (appears in the top left after enabling Developer mode)
+6. Navigate to and select the folder where you extracted the ZIP
+7. Done! You'll see the Promqt icon in your Chrome toolbar (top right, near the puzzle icon)
+
+> **Tip:** If you don't see the icon, click the puzzle piece icon in Chrome's toolbar and pin Promqt.
 
 ### Option 2: Clone with Git
 
@@ -62,23 +66,23 @@ git clone https://github.com/umutcakirai/promqt.git
 ```
 Then follow steps 3-7 above, selecting the cloned `promqt` folder.
 
-### Option 3: Chrome Web Store
-Coming soon. Review in progress.
-
 ### Setup after install
 
-1. Click the **Promqt icon** in your Chrome toolbar
+1. Click the **Promqt icon** in your Chrome toolbar (or the puzzle piece icon > Promqt)
 2. Go to **Settings** tab
 3. Select your **Provider** (OpenAI, Google Gemini, or Anthropic Claude)
-4. Select a **Model** (e.g. GPT-4o, Gemini 2.5 Flash, Claude Sonnet 4)
-5. Paste your **API Key**
+4. Select a **Model** from the dropdown:
+   - OpenAI: GPT-4o, GPT-4.1, etc.
+   - Gemini: Gemini 2.5 Flash, etc.
+   - Claude: Claude Sonnet 4, etc.
+5. Paste your **API Key** (get one from your provider):
    - OpenAI: [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
    - Gemini: [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
    - Claude: [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys)
-6. Click **Test Connection** to verify
+6. Click **Test Connection** to verify your key works
 7. Click **Save**
 
-Now select any text on any webpage and try it out!
+Now go to any webpage, select some text, and try it out!
 
 ## Supported providers
 
