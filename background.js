@@ -202,4 +202,42 @@ Return ONLY a raw JSON array, nothing else:
     });
     return true;
   }
+
+  if (msg.type === 'open_viralmaker') {
+    chrome.tabs.create({ url: 'https://viralmaker.co/image-tool' }, (tab) => {
+      // Wait for tab to finish loading, then inject prompt
+      const promptText = msg.prompt;
+      chrome.tabs.onUpdated.addListener(function listener(tabId, info) {
+        if (tabId === tab.id && info.status === 'complete') {
+          chrome.tabs.onUpdated.removeListener(listener);
+          // Wait extra for React to render
+          setTimeout(() => {
+            chrome.scripting.executeScript({
+              target: { tabId: tab.id },
+              func: (text) => {
+                function tryFill(attempts) {
+                  const ta = document.querySelector('[data-onboarding="prompt-area"] textarea')
+                    || document.querySelector('textarea');
+                  if (ta) {
+                    const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
+                    if (setter) setter.call(ta, text);
+                    else ta.value = text;
+                    ta.dispatchEvent(new Event('input', { bubbles: true }));
+                    ta.dispatchEvent(new Event('change', { bubbles: true }));
+                    ta.dispatchEvent(new InputEvent('input', { bubbles: true, data: text, inputType: 'insertText' }));
+                    ta.focus();
+                    return;
+                  }
+                  if (attempts > 0) setTimeout(() => tryFill(attempts - 1), 500);
+                }
+                tryFill(20);
+              },
+              args: [promptText],
+            });
+          }, 2000);
+        }
+      });
+    });
+    sendResponse({ ok: true });
+  }
 });

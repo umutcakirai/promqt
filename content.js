@@ -1,69 +1,7 @@
 // Promqt - Select text → improve prompt
 // Triggers: selection bubble, right-click, Ctrl+C C, FAB icon
 
-// Auto-paste prompt on viralmaker.co/image-tool
-if (window.location.hostname.includes('viralmaker.co')) {
-  chrome.storage.local.get(['promqtPendingGenerate'], (d) => {
-    if (!d.promqtPendingGenerate) return;
-    const prompt = d.promqtPendingGenerate;
-    chrome.storage.local.remove('promqtPendingGenerate');
-
-    function fillTextarea(el) {
-      // React controlled input needs nativeInputValueSetter
-      const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
-      if (setter) setter.call(el, prompt);
-      else el.value = prompt;
-      // Fire all events React might listen to
-      el.dispatchEvent(new Event('input', { bubbles: true }));
-      el.dispatchEvent(new Event('change', { bubbles: true }));
-      // Also try React's synthetic event
-      const nativeEvent = new InputEvent('input', { bubbles: true, data: prompt, inputType: 'insertText' });
-      el.dispatchEvent(nativeEvent);
-      el.focus();
-    }
-
-    function tryFind() {
-      // Try prompt-area first
-      const ta = document.querySelector('[data-onboarding="prompt-area"] textarea')
-        || document.querySelector('textarea');
-      if (ta && ta.offsetParent) {
-        fillTextarea(ta);
-        return true;
-      }
-      return false;
-    }
-
-    // Strategy 1: immediate try
-    if (tryFind()) return;
-
-    // Strategy 2: MutationObserver - watch for textarea appearing in DOM
-    const observer = new MutationObserver(() => {
-      if (tryFind()) {
-        observer.disconnect();
-      }
-    });
-    observer.observe(document.body || document.documentElement, {
-      childList: true,
-      subtree: true,
-    });
-
-    // Strategy 3: polling fallback
-    let attempts = 0;
-    const interval = setInterval(() => {
-      attempts++;
-      if (tryFind() || attempts > 30) {
-        clearInterval(interval);
-        observer.disconnect();
-      }
-    }, 1000);
-
-    // Cleanup after 30 seconds
-    setTimeout(() => {
-      observer.disconnect();
-      clearInterval(interval);
-    }, 30000);
-  });
-}
+// No viralmaker auto-paste needed here - handled by background.js scripting
 
 (function () {
   if (document.getElementById('promqt-root')) return;
@@ -577,11 +515,8 @@ if (window.location.hostname.includes('viralmaker.co')) {
       });
       el.querySelector('[data-a="generate"]').addEventListener('click', (e) => {
         e.stopPropagation();
-        // Store prompt, open page, content script on that page will paste it
-        chrome.storage.local.set({ promqtPendingGenerate: p.text }, () => {
-          window.open('https://viralmaker.co/image-tool', '_blank');
-          toast('Opening ViralMaker...');
-        });
+        chrome.runtime.sendMessage({ type: 'open_viralmaker', prompt: p.text });
+        toast('Opening ViralMaker...');
       });
       el.querySelector('[data-a="copy"]').addEventListener('click', (e) => {
         e.stopPropagation();
