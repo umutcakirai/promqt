@@ -2,44 +2,66 @@
 // Triggers: selection bubble, right-click, Ctrl+C C, FAB icon
 
 // Auto-paste prompt on viralmaker.co/image-tool
-if (window.location.hostname.includes('viralmaker.co') && window.location.pathname.includes('image-tool')) {
+if (window.location.hostname.includes('viralmaker.co')) {
   chrome.storage.local.get(['promqtPendingGenerate'], (d) => {
     if (!d.promqtPendingGenerate) return;
     const prompt = d.promqtPendingGenerate;
     chrome.storage.local.remove('promqtPendingGenerate');
 
-    // Wait for page to load, find the prompt textarea and fill it
-    const tryPaste = (attempts) => {
-      if (attempts <= 0) return;
+    function fillTextarea(el) {
+      // React controlled input needs nativeInputValueSetter
+      const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
+      if (setter) setter.call(el, prompt);
+      else el.value = prompt;
+      // Fire all events React might listen to
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+      // Also try React's synthetic event
+      const nativeEvent = new InputEvent('input', { bubbles: true, data: prompt, inputType: 'insertText' });
+      el.dispatchEvent(nativeEvent);
+      el.focus();
+    }
 
-      // ViralMaker specific: textarea inside [data-onboarding="prompt-area"]
-      const promptArea = document.querySelector('[data-onboarding="prompt-area"] textarea');
-      if (promptArea) {
-        const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
-        if (setter) setter.call(promptArea, prompt); else promptArea.value = prompt;
-        promptArea.dispatchEvent(new Event('input', { bubbles: true }));
-        promptArea.dispatchEvent(new Event('change', { bubbles: true }));
-        promptArea.focus();
-        return;
+    function tryFind() {
+      // Try prompt-area first
+      const ta = document.querySelector('[data-onboarding="prompt-area"] textarea')
+        || document.querySelector('textarea');
+      if (ta && ta.offsetParent) {
+        fillTextarea(ta);
+        return true;
       }
+      return false;
+    }
 
-      // Fallback: try any visible textarea
-      const textareas = document.querySelectorAll('textarea');
-      for (const ta of textareas) {
-        if (ta.offsetParent) {
-          const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
-          if (setter) setter.call(ta, prompt); else ta.value = prompt;
-          ta.dispatchEvent(new Event('input', { bubbles: true }));
-          ta.dispatchEvent(new Event('change', { bubbles: true }));
-          ta.focus();
-          return;
-        }
+    // Strategy 1: immediate try
+    if (tryFind()) return;
+
+    // Strategy 2: MutationObserver - watch for textarea appearing in DOM
+    const observer = new MutationObserver(() => {
+      if (tryFind()) {
+        observer.disconnect();
       }
+    });
+    observer.observe(document.body || document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
 
-      setTimeout(() => tryPaste(attempts - 1), 500);
-    };
+    // Strategy 3: polling fallback
+    let attempts = 0;
+    const interval = setInterval(() => {
+      attempts++;
+      if (tryFind() || attempts > 30) {
+        clearInterval(interval);
+        observer.disconnect();
+      }
+    }, 1000);
 
-    setTimeout(() => tryPaste(20), 1500);
+    // Cleanup after 30 seconds
+    setTimeout(() => {
+      observer.disconnect();
+      clearInterval(interval);
+    }, 30000);
   });
 }
 
