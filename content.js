@@ -8,35 +8,38 @@ if (window.location.hostname.includes('viralmaker.co') && window.location.pathna
     const prompt = d.promqtPendingGenerate;
     chrome.storage.local.remove('promqtPendingGenerate');
 
-    // Wait for page to load, then find and fill the textarea/input
+    // Wait for page to load, find the prompt textarea and fill it
     const tryPaste = (attempts) => {
       if (attempts <= 0) return;
-      const selectors = ['textarea', 'input[type="text"]', '[contenteditable="true"]', '[role="textbox"]'];
-      for (const sel of selectors) {
-        const els = document.querySelectorAll(sel);
-        for (const el of els) {
-          if (!el.offsetParent && !el.isContentEditable) continue;
-          if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
-            const proto = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
-            const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
-            if (setter) setter.call(el, prompt); else el.value = prompt;
-            el.dispatchEvent(new Event('input', { bubbles: true }));
-            el.dispatchEvent(new Event('change', { bubbles: true }));
-            el.focus();
-            return;
-          } else {
-            el.focus();
-            document.execCommand('insertText', false, prompt);
-            return;
-          }
+
+      // ViralMaker specific: textarea inside [data-onboarding="prompt-area"]
+      const promptArea = document.querySelector('[data-onboarding="prompt-area"] textarea');
+      if (promptArea) {
+        const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
+        if (setter) setter.call(promptArea, prompt); else promptArea.value = prompt;
+        promptArea.dispatchEvent(new Event('input', { bubbles: true }));
+        promptArea.dispatchEvent(new Event('change', { bubbles: true }));
+        promptArea.focus();
+        return;
+      }
+
+      // Fallback: try any visible textarea
+      const textareas = document.querySelectorAll('textarea');
+      for (const ta of textareas) {
+        if (ta.offsetParent) {
+          const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value')?.set;
+          if (setter) setter.call(ta, prompt); else ta.value = prompt;
+          ta.dispatchEvent(new Event('input', { bubbles: true }));
+          ta.dispatchEvent(new Event('change', { bubbles: true }));
+          ta.focus();
+          return;
         }
       }
-      // Retry if elements not loaded yet
+
       setTimeout(() => tryPaste(attempts - 1), 500);
     };
 
-    // Start trying after a short delay for page to render
-    setTimeout(() => tryPaste(10), 1000);
+    setTimeout(() => tryPaste(20), 1500);
   });
 }
 
