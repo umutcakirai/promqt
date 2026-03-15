@@ -1,6 +1,6 @@
 <div align="center">
 
-# promqt
+<img src="assets/logo.png" alt="Promqt" width="280" />
 
 **Metin sec. Daha iyi promptlar al.**
 
