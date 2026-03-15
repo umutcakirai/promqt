@@ -1,6 +1,45 @@
 // Promqt - Select text → improve prompt
 // Triggers: selection bubble, right-click, Ctrl+C C, FAB icon
 
+// Auto-paste prompt on viralmaker.co/image-tool
+if (window.location.hostname.includes('viralmaker.co') && window.location.pathname.includes('image-tool')) {
+  chrome.storage.local.get(['promqtPendingGenerate'], (d) => {
+    if (!d.promqtPendingGenerate) return;
+    const prompt = d.promqtPendingGenerate;
+    chrome.storage.local.remove('promqtPendingGenerate');
+
+    // Wait for page to load, then find and fill the textarea/input
+    const tryPaste = (attempts) => {
+      if (attempts <= 0) return;
+      const selectors = ['textarea', 'input[type="text"]', '[contenteditable="true"]', '[role="textbox"]'];
+      for (const sel of selectors) {
+        const els = document.querySelectorAll(sel);
+        for (const el of els) {
+          if (!el.offsetParent && !el.isContentEditable) continue;
+          if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
+            const proto = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+            const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
+            if (setter) setter.call(el, prompt); else el.value = prompt;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+            el.dispatchEvent(new Event('change', { bubbles: true }));
+            el.focus();
+            return;
+          } else {
+            el.focus();
+            document.execCommand('insertText', false, prompt);
+            return;
+          }
+        }
+      }
+      // Retry if elements not loaded yet
+      setTimeout(() => tryPaste(attempts - 1), 500);
+    };
+
+    // Start trying after a short delay for page to render
+    setTimeout(() => tryPaste(10), 1000);
+  });
+}
+
 (function () {
   if (document.getElementById('promqt-root')) return;
 
@@ -513,9 +552,11 @@
       });
       el.querySelector('[data-a="generate"]').addEventListener('click', (e) => {
         e.stopPropagation();
-        const url = 'https://viralmaker.co/image-tool?prompt=' + encodeURIComponent(p.text);
-        window.open(url, '_blank');
-        toast('Opening ViralMaker...');
+        // Store prompt, open page, content script on that page will paste it
+        chrome.storage.local.set({ promqtPendingGenerate: p.text }, () => {
+          window.open('https://viralmaker.co/image-tool', '_blank');
+          toast('Opening ViralMaker...');
+        });
       });
       el.querySelector('[data-a="copy"]').addEventListener('click', (e) => {
         e.stopPropagation();
