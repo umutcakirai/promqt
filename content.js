@@ -182,6 +182,8 @@
     .pq-btn:hover { background: #006bec; color: #fff; border-color: #006bec; }
     .pq-btn-use { background: #006bec; color: #fff; border-color: #006bec; }
     .pq-btn-use:hover { background: #0055cc; }
+    .pq-btn-gen { background: #10b981; color: #fff; border-color: #10b981; }
+    .pq-btn-gen:hover { background: #059669; }
 
     .pq-foot {
       font-size: 10px; color: #94a3b8; text-align: center; padding-top: 10px;
@@ -500,6 +502,7 @@
         <div class="pq-opt-a">
           <button class="pq-btn pq-btn-use" data-a="use">Use</button>
           <button class="pq-btn" data-a="copy">Copy</button>
+          <button class="pq-btn pq-btn-gen" data-a="generate">Generate</button>
         </div>
       `;
       el.querySelector('[data-a="use"]').addEventListener('click', (e) => {
@@ -507,6 +510,12 @@
         pasteText(p.text);
         toast('Pasted!');
         closePopup();
+      });
+      el.querySelector('[data-a="generate"]').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const url = 'https://viralmaker.co/image-tool?prompt=' + encodeURIComponent(p.text);
+        window.open(url, '_blank');
+        toast('Opening ViralMaker...');
       });
       el.querySelector('[data-a="copy"]').addEventListener('click', (e) => {
         e.stopPropagation();
