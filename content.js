@@ -515,8 +515,9 @@
       });
       el.querySelector('[data-a="generate"]').addEventListener('click', (e) => {
         e.stopPropagation();
-        chrome.runtime.sendMessage({ type: 'open_viralmaker', prompt: p.text });
-        toast('Opening ViralMaker...');
+        navigator.clipboard.writeText(p.text);
+        window.open('https://viralmaker.co/image-tool', '_blank');
+        toast('Copied & opening ViralMaker...');
       });
       el.querySelector('[data-a="copy"]').addEventListener('click', (e) => {
         e.stopPropagation();

@@ -3,12 +3,11 @@
   "name": "Promqt",
   "version": "1.0.0",
   "description": "Select text, get better prompts. Open-source prompt assistant for AI tools.",
-  "permissions": ["activeTab", "storage", "contextMenus", "scripting"],
+  "permissions": ["activeTab", "storage", "contextMenus"],
   "host_permissions": [
     "https://api.openai.com/*",
     "https://generativelanguage.googleapis.com/*",
-    "https://api.anthropic.com/*",
-    "https://viralmaker.co/*"
+    "https://api.anthropic.com/*"
   ],
   "action": {
     "default_popup": "popup.html",
