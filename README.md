@@ -7,7 +7,7 @@
 Open-source Chrome extension that turns any selected text into rich, detailed AI prompts.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Chrome Web Store](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome&logoColor=white)](#-install)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Install-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/promqt/goiofojidgjbmgajafipjieninlfalnm)
 [![GitHub Stars](https://img.shields.io/github/stars/umutcakirai/promqt?style=social)](https://github.com/umutcakirai/promqt)
 
 **[English](#)** | **[Turkce](README.tr.md)**
@@ -45,26 +45,33 @@ Works with ChatGPT, Claude, Gemini, Midjourney, DALL-E, Stable Diffusion, and an
 
 ## Install
 
-> Chrome Web Store review is in progress. For now, install manually using one of the methods below.
+### Chrome Web Store (Recommended)
 
-### Option 1: Download ZIP (Easiest)
+**[Install Promqt from Chrome Web Store](https://chromewebstore.google.com/detail/promqt/goiofojidgjbmgajafipjieninlfalnm)** — free, one click, auto-updates.
+
+### Manual Install (for developers)
+
+<details>
+<summary>Option 1: Download ZIP</summary>
 
 1. **[Download promqt-latest.zip](https://github.com/umutcakirai/promqt/releases/latest/download/promqt-latest.zip)**
-2. Extract the ZIP file to a folder on your computer (remember where you extract it)
-3. Open Chrome and type `chrome://extensions` in the address bar, press Enter
-4. Turn on **Developer mode** (toggle switch in the **top right corner** of the page)
-5. Click the **Load unpacked** button (appears in the top left after enabling Developer mode)
-6. Navigate to and select the folder where you extracted the ZIP
-7. Done! You'll see the Promqt icon in your Chrome toolbar (top right, near the puzzle icon)
+2. Extract the ZIP file to a folder on your computer
+3. Open Chrome → `chrome://extensions`
+4. Turn on **Developer mode** (top right)
+5. Click **Load unpacked** and select the extracted folder
+6. Done!
 
-> **Tip:** If you don't see the icon, click the puzzle piece icon in Chrome's toolbar and pin Promqt.
+</details>
 
-### Option 2: Clone with Git
+<details>
+<summary>Option 2: Clone with Git</summary>
 
 ```bash
 git clone https://github.com/umutcakirai/promqt.git
 ```
-Then follow steps 3-7 above, selecting the cloned `promqt` folder.
+Then load as unpacked extension in `chrome://extensions`.
+
+</details>
 
 ### Setup after install
 

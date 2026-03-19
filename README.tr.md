@@ -7,7 +7,7 @@
 Sectiginiz herhangi bir metni zengin, detayli AI promptlarina donusturen acik kaynakli Chrome eklentisi.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Chrome Web Store](https://img.shields.io/badge/Chrome-Eklenti-4285F4?logo=googlechrome&logoColor=white)](#-kurulum)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Yukle-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/promqt/goiofojidgjbmgajafipjieninlfalnm)
 [![GitHub Stars](https://img.shields.io/github/stars/umutcakirai/promqt?style=social)](https://github.com/umutcakirai/promqt)
 
 **[English](README.md)** | **[Turkce](#)**
@@ -45,26 +45,33 @@ ChatGPT, Claude, Gemini, Midjourney, DALL-E, Stable Diffusion ve diger tum AI ar
 
 ## Kurulum
 
-> Chrome Web Magazasi incelemesi devam ediyor. Simdilik asagidaki yontemlerden biriyle manuel olarak kurun.
+### Chrome Web Store (Onerilen)
 
-### Secenek 1: ZIP indir (En kolay)
+**[Promqt'u Chrome Web Store'dan yukleyin](https://chromewebstore.google.com/detail/promqt/goiofojidgjbmgajafipjieninlfalnm)** — ucretsiz, tek tik, otomatik guncelleme.
+
+### Manuel Kurulum (gelistiriciler icin)
+
+<details>
+<summary>Secenek 1: ZIP indir</summary>
 
 1. **[promqt-latest.zip indir](https://github.com/umutcakirai/promqt/releases/latest/download/promqt-latest.zip)**
-2. ZIP dosyasini bilgisayarinizdaki bir klasore cikartin (nereye cikardiginizi hatirlayin)
-3. Chrome'u acin ve adres cubuguna `chrome://extensions` yazin, Enter'a basin
-4. Sayfanin **sag ust kosesindeki** **Gelistirici modu** anahtarini acin
-5. **Paketlenmemis oge yukle** butonuna tiklayin (Gelistirici modu acildiktan sonra sol ustte belirir)
-6. ZIP'i cikarttiginiz klasoru bulun ve secin
-7. Tamam! Chrome arac cubugunuzda (sag ustte, yapboz ikonu yaninda) Promqt ikonunu goreceksiniz
+2. ZIP dosyasini bir klasore cikartin
+3. Chrome → `chrome://extensions` acin
+4. **Gelistirici modu** acin (sag ust)
+5. **Paketlenmemis oge yukle** tiklayin ve cikarilan klasoru secin
+6. Tamam!
 
-> **Ipucu:** Ikonu goremiyorsaniz, Chrome arac cubugundaki yapboz ikonu simgesine tiklayin ve Promqt'u sabitleyin.
+</details>
 
-### Secenek 2: Git ile klonla
+<details>
+<summary>Secenek 2: Git ile klonla</summary>
 
 ```bash
 git clone https://github.com/umutcakirai/promqt.git
 ```
-Ardindan yukaridaki 3-7 adimlarini takip edin, klonlanan `promqt` klasorunu secin.
+Ardindan `chrome://extensions`'da paketlenmemis oge olarak yukleyin.
+
+</details>
 
 ### Kurulum sonrasi ayarlar
 
